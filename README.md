@@ -20,3 +20,7 @@ Check the [guide](software-guide.md) here.
 ## Contributors
 
 Thanks to all team members.
+
+<a href="https://github.com/yuukidach/eGaming-Analytics/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=yuukidach/eGaming-Analytics" />
+</a>
