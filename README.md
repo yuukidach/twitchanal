@@ -25,7 +25,7 @@ check the [guide](./docs/software-guide.md) here.
 
 To test twitch api easily, you are recommended to download [postman](https://www.postman.com/).
 
-And some groupmate may be confused with how to generate token for Twitch API. You can read this post: [How generate token for Twitch API](./docs/generate_token_for_api.md)
+And some groupmate may be confused with how to generate token for Twitch API. You can read this post: [How generate token for Twitch API](./docs/generate_token_for_api.md).
 
 ## Contributors
 

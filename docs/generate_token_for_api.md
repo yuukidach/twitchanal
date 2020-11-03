@@ -18,6 +18,8 @@ After you finish step 1. There will be a `Client ID` and a `Client Secret`. The 
 
 ## 3. Get Token
 
+Basic instruction:
+
 ``` shell
 POST https://id.twitch.tv/oauth2/token
     ?client_id=<your client ID>
@@ -26,11 +28,17 @@ POST https://id.twitch.tv/oauth2/token
     &scope=<space-separated list of scopes> 
 ```
 
+We can use command line or postman (**recommended**) to do this.
+
 There is the example
+
+### Option 1 - Command line
 
 ``` Shell
 POST https://id.twitch.tv/oauth2/token?client_id=uo6dggojyb8d6soh92zknwmi5ej1q2&client_secret=nyo51xcdrerl8z9m56w9w6wg&grant_type=client_credentials
 ```
+
+### Option 2 - Postman
 
 Also, we can use postman to do this:
 
