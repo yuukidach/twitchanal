@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Since all the group members (expected me :joy:) are using MacBook. These steps can help you set up a workstation.
+Since all the group members ( me :joy:) are using MacBook. These steps can help you set up a workstation.
 
 1. Install [Homebrew](https://www.howtogeek.com/211541/homebrew-for-os-x-easily-installs-desktop-apps-and-terminal-utilities/).
 2. Install [iTerm2](https://www.iterm2.com/) (recommended).
