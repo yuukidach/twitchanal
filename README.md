@@ -4,8 +4,10 @@ This is a group project that using  AI  for  eGaming  analytics  to  discover  c
 
 ## Table of Contents
 
-- [Backgournd](#background)
-- [Contributors](#contributors)
+* [Backgournd](#background)
+* [Contributors](#contributors)
+* [Software Guide](#software-guide)
+* [Available Online Resources](#available-online-resources)
 
 ## Background
 
@@ -22,6 +24,7 @@ check the [guide](./docs/software-guide.md) here.
 1. [Twitch API](https://dev.twitch.tv/docs/api)
 2. [Python Twitch API Library 1](https://pytwitchapi.readthedocs.io/en/latest/index.html)
 3. [Python Twitch API Library 2](https://github.com/tsifrer/python-twitch-client)
+4. [Online Dataset](https://clivecast.github.io/)
 
 To test twitch api easily, you are recommended to download [postman](https://www.postman.com/).
 

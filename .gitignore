@@ -164,4 +164,8 @@ pip-selfcheck.json
 
 secret.yaml
 
+dataset/*
+
+.vscode/
+
 # End of https://www.toptal.com/developers/gitignore/api/python,venv,vscode
