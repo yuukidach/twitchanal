@@ -8,6 +8,7 @@ This is a group project that using  AI  for  eGaming  analytics  to  discover  c
 * [Contributors](#contributors)
 * [Software Guide](#software-guide)
 * [Available Online Resources](#available-online-resources)
+* [Our Work](#our-work)
 
 ## Background
 
@@ -29,6 +30,10 @@ check the [guide](./docs/software-guide.md) here.
 To test twitch api easily, you are recommended to download [postman](https://www.postman.com/).
 
 And some groupmate may be confused with how to generate token for Twitch API. You can read this post: [How generate token for Twitch API](./docs/generate_token_for_api.md).
+
+## Our Work
+
+1. [A command line tool](./twitchanal/README.md) do twitch data analytics.
 
 ## Contributors
 
