@@ -79,14 +79,14 @@ def collect_top_n_games(twitch: Twitch,
 
     cnt = min(100, n)
     n -= cnt
-    top_games_data = twitch.get_top_games(first=cnt)
-    top_games = get_dataframe(top_games_data)
+    top_games_data = twitch.get_top_games(first=cnt) # get json (raw data)
+    top_games = get_dataframe(top_games_data) # json -> dataframe
     while (n > 0):
         cnt = min(100, n)
         n -= cnt
         top_games_data = twitch.get_top_games(
             first=cnt, after=top_games_data['pagination']['cursor'])
-        top_games = pd.concat([top_games, get_dataframe(top_games_data)])
+        top_games = pd.concat([top_games, get_dataframe(top_games_data)]) # dataframe contaction
 
     save_data_csv(data_folder, fname, top_games)
     return top_games
