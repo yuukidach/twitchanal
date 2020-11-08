@@ -106,7 +106,7 @@ def collect_game_streams(twitch: Twitch,
         file_suffix (str): suffix for data file
         n (int, optional): number of live streams to collect. Defaults to 100.
     """
-    data_folder = os.path.join(data_folder, 'game_streams')
+    data_folder = os.path.join(data_folder, 'game_streams' + file_suffix)
     for _, row in data.iterrows():
         game_name = row['name'].replace(' ', '') \
                                .replace('/', '') \
@@ -115,6 +115,13 @@ def collect_game_streams(twitch: Twitch,
         game_streams_data = twitch.get_streams(first=100, game_id=[row['id']])
         save_data_yaml(data_folder, fname, game_streams_data)
         game_streams = get_dataframe(game_streams_data)
+        # get user id to dig more data
+        users_id = list(game_streams['user_id'])
+        users_data = twitch.get_users(user_ids=users_id)
+        users_data = get_dataframe(users_data)
+        # select needed columns
+        users_data = users_data[['broadcaster_type', 'description', 'type']]
+        game_streams = pd.concat([game_streams, users_data], axis=1)
         save_data_csv(data_folder, fname, game_streams)
 
 
