@@ -10,7 +10,9 @@ def cli():
 
 
 @click.command()
-@click.option('--dir', '-d', default='./',
+@click.option('--dir',
+              '-d',
+              default='./',
               help='Directory to store the secret.')
 def save_user(dir):
     """ Save user id and secret key in `secret.yaml`.
@@ -21,12 +23,14 @@ def save_user(dir):
 
 
 @click.command()
-@click.option('--dir', '-d', default='./dataset',
+@click.option('--dir',
+              '-d',
+              default='./dataset',
               help='Directory to store the collected data.')
-@click.option('--timestamp/--no-timestamp', default=True,
+@click.option('--timestamp/--no-timestamp',
+              default=True,
               help='Whether to use timestamp as suffix for data file.')
-@click.option('--num', '-n', default=251,
-              help='Number of games to collect.')
+@click.option('--num', '-n', default=251, help='Number of games to collect.')
 def collect(dir: str, timestamp: bool, num: int):
     """ Collect data for analysis
     """

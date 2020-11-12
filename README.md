@@ -116,9 +116,9 @@ There suffix of the file name is a timestamp. It tells us when we collect the da
 
 ## Guide for Developing This Tool
 
-This is originaly a group project of my class. Because when working on this project, some of our members are new to programming, there are some materials maybe useful for coding.
+This is originally a group project of my class. Because when working on this project, some of our members are new to programming, there are some materials maybe useful for coding.
 
-check the [guide](./docs/software-guide.md) here.
+Check the [guide](./docs/software-guide.md) here.
 
 ### Other Available Online Resources
 
@@ -135,6 +135,7 @@ And some groupmate may be confused with how to generate token for Twitch API. Yo
 
 Thanks to all team members.
 
+TODO: CHANGE THE CONTIBUTOR IMAGE! (THE REPO HAS BEEN RENAMED)
 <a href="https://github.com/yuukidach/eGaming-Analytics/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=yuukidach/eGaming-Analytics" />
 </a>

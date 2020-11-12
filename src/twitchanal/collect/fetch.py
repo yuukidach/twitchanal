@@ -6,10 +6,9 @@ from termcolor import colored, cprint
 from twitchAPI import Twitch
 from bs4 import BeautifulSoup
 
-
 HEADERS = {
     'User-Agent':
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64)     \
          AppleWebKit/537.36 (KHTML, like Gecko)    \
          Chrome/74.0.3729.169 Safari/537.36'
 }
@@ -70,22 +69,19 @@ def fetch_game_stream(twitch: Twitch, game_id: str) -> pd.DataFrame:
         user_ids = game_streams['user_id'].tolist()
     except:
         print('game_streams')
-        cprint('Error: ' + game_id + ' data broken. Jump over it.',
-               'red')
+        cprint('Error: ' + game_id + ' data broken. Jump over it.', 'red')
         return None
     else:
         users_data = twitch.get_users(user_ids=user_ids)
         users_data = turn_into_df(users_data)
         # select needed columns
-        users_data = users_data[[
-            'broadcaster_type', 'description', 'type'
-        ]]
+        users_data = users_data[['broadcaster_type', 'description', 'type']]
         game_streams = pd.concat([game_streams, users_data], axis=1)
         return game_streams
-        
+
 
 def fetch_url(url: str, hint: str = ""):
-    print("Fetching " + hint + ":", url.split('/')[-1], '...')
+    print("Fetching " + hint + ":", url.split('/')[-1] + '...')
 
     while True:
         page = requests.get(url, headers=HEADERS)
