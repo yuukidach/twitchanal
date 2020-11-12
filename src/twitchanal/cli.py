@@ -1,6 +1,6 @@
 import click
 from twitchanal.secret.secret import save_id_secret
-from twitchanal.collect.collect import collect_data
+from twitchanal.collect.save import collect_data
 
 
 @click.group()

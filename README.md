@@ -61,7 +61,7 @@ Options:
 
 ### collect command
 
-`collect` command is one of the most important command in this tool. It used to collect top games data and related streams data into csv / yaml files. Later, we can use these files to do data analysis.
+`collect` command is one of the most important command in this tool. It used to collect top games data and related streams data into csv files. Later, we can use these files to do data analysis.
 
 ``` shell
 Usage: twitchanal collect [OPTIONS]
@@ -104,7 +104,6 @@ It will save data in folder named `dataset` . There is an example of the dataset
 ``` shell
 dataset
 ├── game_streams_1604853653
-│   ├── game_7DaystoDie_1604853653.yaml
 │   ├── game_7DaystoDie_1604853653.csv
 │   └── ...
 └── top_games_1604853653.csv
@@ -114,7 +113,6 @@ There suffix of the file name is a timestamp. It tells us when we collect the da
 
 `top_games_xxxx.csv` contains the data of top games.
 `game_streams_xxxx.csv` contains the data of a certain game stream.
-`game_streams_xxxx.yaml` contains raw data collect by API. It can be uesd to check whether the program run correctly.
 
 ## Guide for Developing This Tool
 
