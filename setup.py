@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='twitchanal',
-      version='0.0.3',
+      version='0.1.0',
       author='yuukidach',
       author_email='chendamailbox@foxmail.com',
       long_description=long_description,
