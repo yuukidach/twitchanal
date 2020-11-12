@@ -52,7 +52,7 @@ def fetch_top_n_games(twitch: Twitch, n: int = 100) -> pd.DataFrame:
     return top_games
 
 
-def fetch_game_stream(twitch: Twitch, game_id: str) -> pd.DataFrame:
+def fetch_game_streams(twitch: Twitch, game_id: str) -> pd.DataFrame:
     """ fetch game streams data from Twitch API
 
     Args:

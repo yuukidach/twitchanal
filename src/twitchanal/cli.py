@@ -31,10 +31,16 @@ def save_user(dir):
               default=True,
               help='Whether to use timestamp as suffix for data file.')
 @click.option('--num', '-n', default=251, help='Number of games to collect.')
-def collect(dir: str, timestamp: bool, num: int):
+@click.option(
+    '--extra/--no-extra',
+    default=True,
+    help=
+    'Whether to collect extra info like `peek viewers`, `peek channels` and so on for top games.'
+)
+def collect(dir: str, timestamp: bool, num: int, extra: bool):
     """ Collect data for analysis
     """
-    collect_data(dir, timestamp, num)
+    collect_data(dir, timestamp, num, extra)
 
 
 cli.add_command(save_user)
