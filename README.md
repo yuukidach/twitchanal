@@ -1,6 +1,6 @@
 # twitchanal (Twitch Analytics)
 
-A command line tool for Twitch analytics.
+A command line tool for Twitch analytics. This is originally a group project of my class at school.
 
 ## Table of Contents
 
@@ -22,6 +22,12 @@ eGaming is one of the popular entertainments nowadays. Twitch is a live streamin
 
 ``` shell
 pip3 install .
+```
+
+Or for development:
+
+``` shell
+pip3 install -e .
 ```
 
 ## Commands
