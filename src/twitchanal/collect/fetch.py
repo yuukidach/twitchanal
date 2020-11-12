@@ -1,16 +1,17 @@
 import pandas as pd
 import requests
 import time
+import random
 from typing import List
 from termcolor import colored, cprint
 from twitchAPI import Twitch
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 
-HEADERS = {
+HAEDER = {
     'User-Agent':
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64)     \
-         AppleWebKit/537.36 (KHTML, like Gecko)    \
-         Chrome/74.0.3729.169 Safari/537.36'
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
+    'Accept-Language': 'en-US,en;q=0.8',
 }
 
 
@@ -81,14 +82,23 @@ def fetch_game_streams(twitch: Twitch, game_id: str) -> pd.DataFrame:
 
 
 def fetch_url(url: str, hint: str = ""):
+    """ fetch url content
+
+    Args:
+        url (str): URL
+        hint (str, optional): Prompt hint. Defaults to "".
+
+    Returns:
+        BeautifulSoup object
+    """
     print("Fetching " + hint + ":", url.split('/')[-1] + '...')
 
     while True:
-        page = requests.get(url, headers=HEADERS)
+        page = requests.get(url, headers=HAEDER)
         if page.status_code == 200:
             break
         print('Busy. Try again...')
-        time.sleep(1)
+        time.sleep(random.uniform(1.6, 3.0))
 
     html = BeautifulSoup(page.text, 'html.parser')
     return html
