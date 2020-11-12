@@ -1,4 +1,5 @@
 aiohttp==3.7.2
+alive-progress==1.6.1
 appdirs==1.4.4
 async-timeout==3.0.1
 attrs==20.2.0
@@ -25,7 +26,6 @@ requests==2.24.0
 six==1.15.0
 soupsieve==2.0.1
 termcolor==1.1.0
-tqdm==4.51.0
 twitchAPI==2.0.1
 typing-extensions==3.7.4.3
 urllib3==1.25.11

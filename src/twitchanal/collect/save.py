@@ -8,6 +8,7 @@ from twitchAPI.types import AuthScope
 from collections import defaultdict
 from twitchanal.secret.secret import load_id_secret
 from multiprocessing.dummy import Pool as ThreadPool
+from alive_progress import alive_bar
 from .fetch import fetch_top_n_games, fetch_game_streams, fetch_url
 
 TWITCH_TRCK_URL = 'https://twitchtracker.com/'
@@ -91,22 +92,26 @@ def collect_game_info(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: top_games with more info
     """
     data_dict = defaultdict(list)
+    len = df.shape[0]
 
-    for _, row in df.iterrows():
-        gid = row['id']
+    with alive_bar(len) as bar:
+        for _, row in df.iterrows():
+            gid = row['id']
 
-        html = fetch_url(TWITCH_TRCK_URL + 'games/' + gid, hint='game')
-        divs = html.find_all('div', {'class': 'g-x-s-block'})
-        for div in divs:
-            # Give a initial value as None
-            # so that the program won't raise exception for length
-            val, label = (None, None)
-            val = div.find('div', {'class': 'g-x-s-value'}).text.strip()
-            label = div.find('div', {'class': 'g-x-s-label'}).text
-            if ('@' in label):
-                (label, date) = label.split('@')
-                val += date
-            data_dict[label].append(val)
+            html = fetch_url(TWITCH_TRCK_URL + 'games/' + gid, hint='game')
+            divs = html.find_all('div', {'class': 'g-x-s-block'})
+            for div in divs:
+                # Give a initial value as None
+                # so that the program won't raise exception for length
+                val, label = (None, None)
+                val = div.find('div', {'class': 'g-x-s-value'}).text.strip()
+                label = div.find('div', {'class': 'g-x-s-label'}).text
+                if ('@' in label):
+                    (label, date) = label.split('@')
+                    val += date
+                data_dict[label].append(val)
+
+            bar()
 
     df = df.assign(**data_dict)
     return df
