@@ -1,6 +1,6 @@
 import click
-from twitchanal.save_secret.save_secret import save_id_secret
-from twitchanal.datacollection.collect import collect_data
+from twitchanal.secret.secret import save_id_secret
+from twitchanal.collect.collect import collect_data
 
 
 @click.group()
@@ -10,12 +10,14 @@ def cli():
 
 
 @click.command()
-def save_user():
+@click.option('--dir', '-d', default='./',
+              help='Directory to store the secret.')
+def save_user(dir):
     """ Save user id and secret key in `secret.yaml`.
     """
     id = click.prompt('Please enter the client ID', type=str)
     secret = click.prompt('Please enter the secret key', type=str)
-    save_id_secret(id, secret)
+    save_id_secret(id, secret, dir)
 
 
 @click.command()

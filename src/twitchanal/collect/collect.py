@@ -6,7 +6,7 @@ from typing import NoReturn
 from twitchAPI.twitch import Twitch
 from twitchAPI.oauth import UserAuthenticator
 from twitchAPI.types import AuthScope
-from twitchanal.save_secret.save_secret import *
+from twitchanal.secret.secret import *
 
 
 def get_dataframe(data: dict) -> pd.DataFrame:
