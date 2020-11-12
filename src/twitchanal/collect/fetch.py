@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import time
 import random
+import logging
 from typing import List
 from termcolor import colored, cprint
 from twitchAPI import Twitch
@@ -97,7 +98,7 @@ def fetch_url(url: str, hint: str = ""):
         page = requests.get(url, headers=HAEDER)
         if page.status_code == 200:
             break
-        print('Busy. Try again...')
+        logging.info(url.split('/')[-1] + ' busy. Try again...')
         time.sleep(random.uniform(1.6, 3.0))
 
     html = BeautifulSoup(page.text, 'html.parser')

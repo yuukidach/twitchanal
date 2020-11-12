@@ -1,6 +1,7 @@
 import os
 import time
 import pandas as pd
+import logging
 from typing import NoReturn
 from twitchAPI.twitch import Twitch
 from twitchAPI.oauth import UserAuthenticator

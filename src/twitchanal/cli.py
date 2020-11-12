@@ -1,4 +1,6 @@
 import click
+import logging
+import os
 from twitchanal.secret.secret import save_id_secret
 from twitchanal.collect.save import collect_data
 
@@ -37,9 +39,22 @@ def save_user(dir):
     help=
     'Whether to collect extra info like `peek viewers`, `peek channels` and so on for top games.'
 )
-def collect(dir: str, timestamp: bool, num: int, extra: bool):
+@click.option('--debug/--no-debug',
+              default=False,
+              help='Run in debug mode or not.')
+def collect(dir: str, timestamp: bool, num: int, extra: bool, debug: bool):
     """ Collect data for analysis
     """
+    try:
+        os.remove('twitchanal.log')
+    except OSError:
+        pass
+
+    if debug:
+        lv = logging.DEBUG
+    else:
+        lv = logging.INFO
+    logging.basicConfig(filename='twitchanal.log', level=lv)
     collect_data(dir, timestamp, num, extra)
 
 
