@@ -6,8 +6,8 @@ A command line tool for Twitch analytics. This is originally a group project of 
 
 * [Backgournd](#background)
 * [Installation](#installation)
-* [Commands](#commands)
 * [Usage](#usage)
+* [Example](#example)
   + [[Opitional] Save ID and Secret](#optional-save-id-and-secret)
   + [Collect Data](#collect-data)
 * [Guide for Developing This Tool](#guide-for-developing-this-tool)
@@ -30,7 +30,7 @@ Or for development:
 pip3 install -e .
 ```
 
-## Commands
+## Usage
 
 ``` shell
 Usage: twitchanal [OPTIONS] COMMAND [ARGS]...
@@ -77,7 +77,7 @@ Options:
   --help                        Show this message and exit.
 ```
 
-## Usage
+## Example
 
 ### [Optional] Save ID and Secret
 
