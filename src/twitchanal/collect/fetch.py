@@ -7,7 +7,6 @@ from typing import List
 from termcolor import colored, cprint
 from twitchAPI import Twitch
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
 
 HAEDER = {
     'User-Agent':
