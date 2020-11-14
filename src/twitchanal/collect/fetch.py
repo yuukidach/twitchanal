@@ -34,6 +34,16 @@ def turn_into_df(data: dict) -> pd.DataFrame:
 
 
 def fetch_twitch_data(twitch: Twitch, fn_name: str, **kwargs) -> pd.DataFrame:
+    """ fetch data from Twitch API
+
+    Args:
+        twitch (Twitch): twitchAPI object
+        fn_name (str): function name of twitchAPI
+        **kwargs: arguments for fn_name
+
+    Returns:
+        pd.DataFrame: fetched data
+    """
     n = kwargs['first']
     fn = getattr(twitch, fn_name)
 
@@ -44,8 +54,10 @@ def fetch_twitch_data(twitch: Twitch, fn_name: str, **kwargs) -> pd.DataFrame:
     while (n > 0):
         kwargs['first'] = min(100, n)
         n -= kwargs['first']
+        # check if there is more pages
+        if not data_all['pagination']:
+            break
         kwargs['after'] = data_all['pagination']['cursor']
-
         data_all = fn(**kwargs)
         data = pd.concat([data, turn_into_df(data_all)])
 
@@ -67,31 +79,47 @@ def fetch_top_games(twitch: Twitch, n: int = 100) -> pd.DataFrame:
     return top_games
 
 
-def fetch_game_streams(twitch: Twitch, game_id: str) -> pd.DataFrame:
+def fetch_game_streams(twitch: Twitch,
+                       game_id: str,
+                       n: int = 100) -> pd.DataFrame:
     """ fetch game streams data from Twitch API
 
     Args:
         twitch (Twitch): twitch api instance
         game_ids (str): list of game ids
+        n (int): how many streams to fetch
 
     Returns:
         pd.DataFrame / None: dataframe of game streams
     """
-    game_streams = twitch.get_streams(first=100, game_id=[game_id])
-    game_streams = turn_into_df(game_streams)
+    kwargs = {'first': n, 'game_id': [game_id]}
+    game_streams = fetch_twitch_data(twitch, 'get_streams', **kwargs)
+    # game_streams = twitch.get_streams(first=100, game_id=[game_id])
+    # game_streams = turn_into_df(game_streams)
     # get user id to dig more data
     try:
-        user_ids = game_streams['user_id'].tolist()
+        total_user_ids = game_streams['user_id'].tolist()
+        user_ids_num = len(total_user_ids)
+        ephoch = user_ids_num // 100
+        if user_ids_num % 100 != 0:
+            ephoch += 1
     except:
         print('game_streams')
         cprint('Error: ' + game_id + ' data broken. Jump over it.', 'red')
         return None
     else:
-        users_data = twitch.get_users(user_ids=user_ids)
-        users_data = turn_into_df(users_data)
-        # select needed columns
-        users_data = users_data[['broadcaster_type', 'description', 'type']]
-        game_streams = pd.concat([game_streams, users_data], axis=1)
+        total_users_data = pd.DataFrame(columns=['broadcaster_type', 'description', 'type'])
+        for i in range(ephoch):
+            user_ids = total_user_ids[i*100: i*100+100]
+            users_data = twitch.get_users(user_ids=user_ids)
+            users_data = turn_into_df(users_data)
+            # select needed columns
+            users_data = users_data[['broadcaster_type', 'description', 'type']]
+            total_users_data = total_users_data.append(users_data, ignore_index=True)
+
+        total_users_data.reset_index(drop=True, inplace=True)
+        game_streams.reset_index(drop=True, inplace=True)
+        game_streams = pd.concat([game_streams, total_users_data], axis=1)
         return game_streams
 
 
@@ -151,4 +179,3 @@ def fetch_game_info(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df.assign(**data_dict)
     return df
-

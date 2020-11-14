@@ -29,8 +29,11 @@ def save_data_csv(folder: str, fname: str, data: pd.DataFrame) -> NoReturn:
     print('Finish writing', fname)
 
 
-def save_game_streams(twitch: Twitch, data_folder: str, game_id: str,
-                      fname: str) -> NoReturn:
+def save_game_streams(twitch: Twitch,
+                      data_folder: str,
+                      game_id: str,
+                      fname: str,
+                      n: int = 100) -> NoReturn:
     """ save live streams
 
     Args:
@@ -38,11 +41,12 @@ def save_game_streams(twitch: Twitch, data_folder: str, game_id: str,
         data_folder (str): folder to contains data
         game_id (str): game id
         fname (str): data file name
-    
+        n (int): number of live streams to collect. Defaults to 100.
+
     Returns:
         NoReturn
     """
-    game_streams = fetch_game_streams(twitch, game_id)
+    game_streams = fetch_game_streams(twitch, game_id, n)
     if not game_streams is None:
         save_data_csv(data_folder, fname, game_streams)
 
@@ -74,14 +78,16 @@ def save_n_game_streams(twitch: Twitch,
     twitchs = [twitch] * len
     data_folders = [data_folder] * len
     game_ids = data['id'].tolist()
+    n = [n] * len
     pool = ThreadPool(10)
-    pool.starmap(save_game_streams, zip(twitchs, data_folders, game_ids,
-                                        fnames))
+    pool.starmap(save_game_streams,
+                 zip(twitchs, data_folders, game_ids, fnames, n))
 
 
 def collect_data(data_folder: str = './dataset',
                  with_timestamp: bool = True,
                  num: int = 251,
+                 stream: int = 100,
                  extra: bool = True) -> NoReturn:
     """ collecet data from twitch api
 
@@ -90,6 +96,7 @@ def collect_data(data_folder: str = './dataset',
         with_timestamp (bool, optional): whether using a timestamp as suffix or not. 
                                          Defaults to True.
         num (int, optional): Number of games to collect.
+        stream (int, optional): Number of streams to collect.
         extra (bool, optional): Whether to collect extra info like `peek viewers`, 
                                 `peek channels` and so on for top games.
     
@@ -109,7 +116,7 @@ def collect_data(data_folder: str = './dataset',
         timestamp = ""
 
     top_games = fetch_top_games(twitch, num)
-    save_n_game_streams(twitch, data_folder, top_games, timestamp)
+    save_n_game_streams(twitch, data_folder, top_games, timestamp, stream)
     if extra:
         top_games = fetch_game_info(top_games)
     save_data_csv(data_folder, 'top_games' + timestamp, top_games)

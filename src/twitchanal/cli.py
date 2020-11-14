@@ -33,6 +33,10 @@ def save_user(dir):
               default=True,
               help='Whether to use timestamp as suffix for data file.')
 @click.option('--num', '-n', default=251, help='Number of games to collect.')
+@click.option('--stream',
+              '-s',
+              default=100,
+              help='Number of game streams to collect.')
 @click.option(
     '--extra/--no-extra',
     default=True,
@@ -42,7 +46,8 @@ def save_user(dir):
 @click.option('--debug/--no-debug',
               default=False,
               help='Run in debug mode or not.')
-def collect(dir: str, timestamp: bool, num: int, extra: bool, debug: bool):
+def collect(dir: str, timestamp: bool, num: int, stream: int, extra: bool,
+            debug: bool):
     """ Collect data for analysis
     """
     try:
@@ -55,7 +60,7 @@ def collect(dir: str, timestamp: bool, num: int, extra: bool, debug: bool):
     else:
         lv = logging.INFO
     logging.basicConfig(filename='twitchanal.log', level=lv)
-    collect_data(dir, timestamp, num, extra)
+    collect_data(dir, timestamp, num, stream, extra)
 
 
 cli.add_command(save_user)
