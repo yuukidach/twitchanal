@@ -7,6 +7,10 @@ from typing import List
 from termcolor import colored, cprint
 from twitchAPI import Twitch
 from bs4 import BeautifulSoup
+from alive_progress import alive_bar
+from collections import defaultdict
+
+TWITCH_TRCK_URL = 'https://twitchtracker.com/'
 
 HAEDER = {
     'User-Agent':
@@ -102,3 +106,38 @@ def fetch_url(url: str, hint: str = ""):
 
     html = BeautifulSoup(page.text, 'html.parser')
     return html
+
+
+def fetch_game_info(df: pd.DataFrame) -> pd.DataFrame:
+    """ Fetch more specific info from `twitchtracker`
+
+    Args:
+        df (pd.DataFrame): dataframe of top_games
+
+    Returns:
+        pd.DataFrame: top_games with more info
+    """
+    data_dict = defaultdict(list)
+    len = df.shape[0]
+
+    with alive_bar(len) as bar:
+        for _, row in df.iterrows():
+            gid = row['id']
+
+            html = fetch_url(TWITCH_TRCK_URL + 'games/' + gid, hint='game')
+            divs = html.find_all('div', {'class': 'g-x-s-block'})
+            for div in divs:
+                # Give a initial value as None
+                # so that the program won't raise exception for length
+                val, label = (None, None)
+                val = div.find('div', {'class': 'g-x-s-value'}).text.strip()
+                label = div.find('div', {'class': 'g-x-s-label'}).text
+                if ('@' in label):
+                    (label, date) = label.split('@')
+                    val += date
+                data_dict[label].append(val)
+
+            bar()
+
+    df = df.assign(**data_dict)
+    return df
