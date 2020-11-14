@@ -33,7 +33,26 @@ def turn_into_df(data: dict) -> pd.DataFrame:
     return data
 
 
-def fetch_top_n_games(twitch: Twitch, n: int = 100) -> pd.DataFrame:
+def fetch_twitch_data(twitch: Twitch, fn_name: str, **kwargs) -> pd.DataFrame:
+    n = kwargs['first']
+    fn = getattr(twitch, fn_name)
+
+    kwargs['first'] = min(100, n)
+    n -= kwargs['first']
+    data_all = fn(**kwargs)
+    data = turn_into_df(data_all)
+    while (n > 0):
+        kwargs['first'] = min(100, n)
+        n -= kwargs['first']
+        kwargs['after'] = data_all['pagination']['cursor']
+
+        data_all = fn(**kwargs)
+        data = pd.concat([data, turn_into_df(data_all)])
+
+    return data
+
+
+def fetch_top_games(twitch: Twitch, n: int = 100) -> pd.DataFrame:
     """ fetch top n games
 
     Args:
@@ -43,16 +62,7 @@ def fetch_top_n_games(twitch: Twitch, n: int = 100) -> pd.DataFrame:
     Returns:
         pd.DataFrame
     """
-    cnt = min(100, n)
-    n -= cnt
-    top_games_data = twitch.get_top_games(first=cnt)
-    top_games = turn_into_df(top_games_data)
-    while (n > 0):
-        cnt = min(100, n)
-        n -= cnt
-        top_games_data = twitch.get_top_games(
-            first=cnt, after=top_games_data['pagination']['cursor'])
-        top_games = pd.concat([top_games, turn_into_df(top_games_data)])
+    top_games = fetch_twitch_data(twitch, 'get_top_games', first=n)
 
     return top_games
 
@@ -141,3 +151,4 @@ def fetch_game_info(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df.assign(**data_dict)
     return df
+

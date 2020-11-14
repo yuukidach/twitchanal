@@ -8,7 +8,7 @@ from twitchAPI.oauth import UserAuthenticator
 from twitchAPI.types import AuthScope
 from twitchanal.secret.secret import load_id_secret
 from multiprocessing.dummy import Pool as ThreadPool
-from .fetch import fetch_top_n_games, fetch_game_streams, fetch_game_info
+from .fetch import fetch_top_games, fetch_game_streams, fetch_game_info
 
 
 def save_data_csv(folder: str, fname: str, data: pd.DataFrame) -> NoReturn:
@@ -108,7 +108,7 @@ def collect_data(data_folder: str = './dataset',
     else:
         timestamp = ""
 
-    top_games = fetch_top_n_games(twitch, num)
+    top_games = fetch_top_games(twitch, num)
     save_n_game_streams(twitch, data_folder, top_games, timestamp)
     if extra:
         top_games = fetch_game_info(top_games)
