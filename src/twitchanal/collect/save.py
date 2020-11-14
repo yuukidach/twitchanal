@@ -8,7 +8,18 @@ from twitchAPI.oauth import UserAuthenticator
 from twitchAPI.types import AuthScope
 from twitchanal.secret.secret import load_id_secret
 from multiprocessing.dummy import Pool as ThreadPool
-from .fetch import fetch_top_games, fetch_game_streams, fetch_game_info
+from .fetch import fetch_top_games, fetch_game_streams, fetch_game_info, fetch_twitch_data
+
+TAGS = [
+    '4X', 'Action', 'Adventure Game', 'Arcade', 'Autobattler',
+    'Card & Board Game', 'Creative', 'Driving/Racing Game', 'Educational Game',
+    'Fighting', 'Flight Simulator', 'FPS', 'Gambling Game', 'Game Overlay',
+    'Hidden Objects', 'Horror', 'Indie Game', 'IRL', 'Metroidvania', 'MMO',
+    'MOBA', 'Mobile Game', 'Mystery', 'Open World', 'Party', 'Pinball',
+    'Platformer', 'Point and Click', 'Puzzle', 'Rhythm & Music Game',
+    'Roguelike', 'RPG', 'RTS', 'Shoot \'Em Up', 'Shooter', 'Simulation',
+    'Sports Game', 'Stealth', 'Strategy', 'Survival', 'Visual Novel'
+]
 
 
 def save_data_csv(folder: str, fname: str, data: pd.DataFrame) -> NoReturn:
@@ -84,6 +95,26 @@ def save_n_game_streams(twitch: Twitch,
                  zip(twitchs, data_folders, game_ids, fnames, n))
 
 
+def save_tags(twitch: Twitch, data_folder: str) -> NoReturn:
+    """ save tags for games. usually run only once
+
+    Args:
+        twitch (Twitch): twitchAPI object
+        data_folder (str): folder to contains data
+
+    Returns:
+        NoReturn
+    """
+    data_folder = os.path.join(data_folder, 'tags')
+    for tag in TAGS:
+        fname = tag.replace(' ', '') \
+                   .replace('&', '') \
+                   .replace('/', '') \
+                   .replace('\'', '')
+        tag_data = fetch_twitch_data(twitch, 'search_categories', query=tag, first=1000)
+        save_data_csv(data_folder, fname, tag_data)
+
+
 def collect_data(data_folder: str = './dataset',
                  with_timestamp: bool = True,
                  num: int = 251,
@@ -114,6 +145,10 @@ def collect_data(data_folder: str = './dataset',
         timestamp = "_" + str(int(time.time()))
     else:
         timestamp = ""
+
+    # tags shouldn't be updated too frequently
+    if not os.path.exists(os.path.join(data_folder, 'tags')):
+        save_tags(twitch, data_folder)
 
     top_games = fetch_top_games(twitch, num)
     save_n_game_streams(twitch, data_folder, top_games, timestamp, stream)

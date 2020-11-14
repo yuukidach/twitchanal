@@ -94,8 +94,6 @@ def fetch_game_streams(twitch: Twitch,
     """
     kwargs = {'first': n, 'game_id': [game_id]}
     game_streams = fetch_twitch_data(twitch, 'get_streams', **kwargs)
-    # game_streams = twitch.get_streams(first=100, game_id=[game_id])
-    # game_streams = turn_into_df(game_streams)
     # get user id to dig more data
     try:
         total_user_ids = game_streams['user_id'].tolist()
@@ -108,14 +106,18 @@ def fetch_game_streams(twitch: Twitch,
         cprint('Error: ' + game_id + ' data broken. Jump over it.', 'red')
         return None
     else:
-        total_users_data = pd.DataFrame(columns=['broadcaster_type', 'description', 'type'])
+        total_users_data = pd.DataFrame(
+            columns=['broadcaster_type', 'description', 'type'])
         for i in range(ephoch):
-            user_ids = total_user_ids[i*100: i*100+100]
+            user_ids = total_user_ids[i * 100:i * 100 + 100]
             users_data = twitch.get_users(user_ids=user_ids)
             users_data = turn_into_df(users_data)
             # select needed columns
-            users_data = users_data[['broadcaster_type', 'description', 'type']]
-            total_users_data = total_users_data.append(users_data, ignore_index=True)
+            users_data = users_data[[
+                'broadcaster_type', 'description', 'type'
+            ]]
+            total_users_data = total_users_data.append(users_data,
+                                                       ignore_index=True)
 
         total_users_data.reset_index(drop=True, inplace=True)
         game_streams.reset_index(drop=True, inplace=True)
