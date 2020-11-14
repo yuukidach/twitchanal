@@ -6,8 +6,8 @@ A command line tool for Twitch analytics. This is originally a group project of 
 
 * [Backgournd](#background)
 * [Installation](#installation)
-* [Commands](#commands)
 * [Usage](#usage)
+* [Example](#example)
   + [[Opitional] Save ID and Secret](#optional-save-id-and-secret)
   + [Collect Data](#collect-data)
 * [Guide for Developing This Tool](#guide-for-developing-this-tool)
@@ -30,7 +30,7 @@ Or for development:
 pip3 install -e .
 ```
 
-## Commands
+## Usage
 
 ``` shell
 Usage: twitchanal [OPTIONS] COMMAND [ARGS]...
@@ -61,7 +61,7 @@ Options:
 
 ### collect command
 
-`collect` command is one of the most important command in this tool. It used to collect top games data and related streams data into csv / yaml files. Later, we can use these files to do data analysis.
+`collect` command is one of the most important command in this tool. It used to collect top games data and related streams data into csv files. Later, we can use these files to do data analysis.
 
 ``` shell
 Usage: twitchanal collect [OPTIONS]
@@ -77,7 +77,7 @@ Options:
   --help                        Show this message and exit.
 ```
 
-## Usage
+## Example
 
 ### [Optional] Save ID and Secret
 
@@ -104,7 +104,6 @@ It will save data in folder named `dataset` . There is an example of the dataset
 ``` shell
 dataset
 ├── game_streams_1604853653
-│   ├── game_7DaystoDie_1604853653.yaml
 │   ├── game_7DaystoDie_1604853653.csv
 │   └── ...
 └── top_games_1604853653.csv
@@ -114,13 +113,12 @@ There suffix of the file name is a timestamp. It tells us when we collect the da
 
 `top_games_xxxx.csv` contains the data of top games.
 `game_streams_xxxx.csv` contains the data of a certain game stream.
-`game_streams_xxxx.yaml` contains raw data collect by API. It can be uesd to check whether the program run correctly.
 
 ## Guide for Developing This Tool
 
-This is originaly a group project of my class. Because when working on this project, some of our members are new to programming, there are some materials maybe useful for coding.
+This is originally a group project of my class. Because when working on this project, some of our members are new to programming, there are some materials maybe useful for coding.
 
-check the [guide](./docs/software-guide.md) here.
+Check the [guide](./docs/software-guide.md) here.
 
 ### Other Available Online Resources
 
@@ -137,6 +135,7 @@ And some groupmate may be confused with how to generate token for Twitch API. Yo
 
 Thanks to all team members.
 
+TODO: CHANGE THE CONTIBUTOR IMAGE! (THE REPO HAS BEEN RENAMED)
 <a href="https://github.com/yuukidach/eGaming-Analytics/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=yuukidach/eGaming-Analytics" />
 </a>

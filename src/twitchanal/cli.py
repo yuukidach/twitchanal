@@ -1,6 +1,8 @@
 import click
+import logging
+import os
 from twitchanal.secret.secret import save_id_secret
-from twitchanal.collect.collect import collect_data
+from twitchanal.collect.save import collect_data
 
 
 @click.group()
@@ -10,7 +12,9 @@ def cli():
 
 
 @click.command()
-@click.option('--dir', '-d', default='./',
+@click.option('--dir',
+              '-d',
+              default='./',
               help='Directory to store the secret.')
 def save_user(dir):
     """ Save user id and secret key in `secret.yaml`.
@@ -21,16 +25,42 @@ def save_user(dir):
 
 
 @click.command()
-@click.option('--dir', '-d', default='./dataset',
+@click.option('--dir',
+              '-d',
+              default='./dataset',
               help='Directory to store the collected data.')
-@click.option('--timestamp/--no-timestamp', default=True,
+@click.option('--timestamp/--no-timestamp',
+              default=True,
               help='Whether to use timestamp as suffix for data file.')
-@click.option('--num', '-n', default=251,
-              help='Number of games to collect.')
-def collect(dir: str, timestamp: bool, num: int):
+@click.option('--num', '-n', default=251, help='Number of games to collect.')
+@click.option('--stream',
+              '-s',
+              default=100,
+              help='Number of game streams to collect.')
+@click.option(
+    '--extra/--no-extra',
+    default=True,
+    help=
+    'Whether to collect extra info like `peek viewers`, `peek channels` and so on for top games.'
+)
+@click.option('--debug/--no-debug',
+              default=False,
+              help='Run in debug mode or not.')
+def collect(dir: str, timestamp: bool, num: int, stream: int, extra: bool,
+            debug: bool):
     """ Collect data for analysis
     """
-    collect_data(dir, timestamp, num)
+    try:
+        os.remove('twitchanal.log')
+    except OSError:
+        pass
+
+    if debug:
+        lv = logging.DEBUG
+    else:
+        lv = logging.INFO
+    logging.basicConfig(filename='twitchanal.log', level=lv)
+    collect_data(dir, timestamp, num, stream, extra)
 
 
 cli.add_command(save_user)

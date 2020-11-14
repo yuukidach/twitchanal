@@ -46,6 +46,3 @@ def load_id_secret(dir: str="") -> Tuple[str, str]:
         id = data['client_id']
         secret = data['secret_key']
     return (id, secret)
-
-
-# load_id_secret()

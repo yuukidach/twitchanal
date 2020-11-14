@@ -8,13 +8,13 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='twitchanal',
-      version='0.0.2',
+      version='0.1.1',
       author='yuukidach',
       author_email='chendamailbox@foxmail.com',
       long_description=long_description,
       long_description_content_type="text/markdown",
-      install_requires = required,
-      python_requires = '>=3.7',
+      install_requires=required,
+      python_requires='>=3.7',
       package_dir={'': 'src'},
       packages=find_packages('src'),
       entry_points={'console_scripts': [
