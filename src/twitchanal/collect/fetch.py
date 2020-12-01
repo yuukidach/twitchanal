@@ -171,9 +171,10 @@ def fetch_game_info(df: pd.DataFrame) -> pd.DataFrame:
                 # so that the program won't raise exception for length
                 val, label = (None, None)
                 val = div.find('div', {'class': 'g-x-s-value'}).text.strip()
-                label = div.find('div', {'class': 'g-x-s-label'}).text
+                label = div.find('div', {'class': 'g-x-s-label'}).text.strip()
                 if ('@' in label):
                     (label, date) = label.split('@')
+                    label = label.strip()
                     val += date
                 data_dict[label].append(val)
 
