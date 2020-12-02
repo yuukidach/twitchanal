@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
@@ -9,7 +10,7 @@ from sklearn.linear_model import LinearRegression
 from twitchanal.process.game import Game
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 game = Game()
 df = game.get_data()
@@ -93,26 +94,36 @@ def draw_viewer_channel():
     return fig
 
 
-
+## HTML layout for the web page
 app.layout = html.Div(children=[
     html.H1(children='Twitch Analysis', style={'textAlign': 'center'}),
+
     # draw 2 plots in one row
-    html.Div([
-        html.Div([
-            dcc.Graph(id='num_of_game_per_tag_graph', figure=draw_num_of_game_per_tag()),
-        ], className='six columns'),
-        html.Div([
-            dcc.Graph(id='total_viewers_graph', figure=draw_total_viewers()),
-        ], className='six columns'),
-    ], className='row'),
-    html.Div([
-        html.Div([
-            dcc.Graph(id='aver_viewers_graph', figure=draw_average_viewers()),
-        ], className='six columns'),
-        html.Div([
-            dcc.Graph(id='peak_viewers_graph', figure=draw_peak_viewers()),
-        ], className='six columns'),
-    ], className='row'),
+    dbc.Row([
+        dbc.Col(
+            html.Div([
+                dcc.Graph(id='num_of_game_per_tag_graph', figure=draw_num_of_game_per_tag()),
+            ])
+        ),
+        dbc.Col(
+            html.Div([
+                dcc.Graph(id='total_viewers_graph', figure=draw_total_viewers()),
+            ])
+        )
+    ]),
+
+    dbc.Row([
+        dbc.Col(
+            html.Div([
+                dcc.Graph(id='aver_viewers_graph', figure=draw_average_viewers()),
+            ])
+        ),
+        dbc.Col(
+            html.Div([
+                dcc.Graph(id='peak_viewers_graph', figure=draw_peak_viewers()),
+            ])
+        ),
+    ]),
 
     dcc.Graph(id='viewer_channel_graph', figure=draw_viewer_channel())
 ])
