@@ -3,7 +3,7 @@
 # src/twitchanal/secret/secret.py: 2
 PyYAML == 5.3.1
 
-# src/twitchanal/collect/save.py: 12
+# src/twitchanal/collect/fetch.py: 10
 alive_progress == 1.6.1
 
 # src/twitchanal/collect/fetch.py: 9
@@ -12,14 +12,38 @@ beautifulsoup4 == 4.9.3
 # src/twitchanal/cli.py: 1
 click == 7.1.2
 
+# src/twitchanal/process/show.py: 1
+dash == 1.17.0
+
+# src/twitchanal/process/show.py: 4
+dash_bootstrap_components == 0.10.7
+
+# src/twitchanal/process/show.py: 2
+dash_core_components == 1.13.0
+
+# src/twitchanal/process/show.py: 3
+dash_html_components == 1.1.1
+
+# src/twitchanal/process/show.py: 8
+numpy == 1.19.4
+
 # src/twitchanal/collect/fetch.py: 1
 # src/twitchanal/collect/save.py: 3
+# src/twitchanal/process/game.py: 4
+# src/twitchanal/process/show.py: 7
 pandas == 1.1.4
+
+# src/twitchanal/process/show.py: 5,6
+plotly == 4.13.0
 
 # src/twitchanal/collect/fetch.py: 2
 requests == 2.24.0
 
+# src/twitchanal/process/show.py: 9
+scikit_learn == 0.23.2
+
 # src/twitchanal/collect/fetch.py: 7
+# src/twitchanal/process/game.py: 5
 # src/twitchanal/secret/secret.py: 3
 termcolor == 1.1.0
 
