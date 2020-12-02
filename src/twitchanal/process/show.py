@@ -11,13 +11,14 @@ from twitchanal.process.game import Game
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-game = Game()
-df = game.get_data()
-tags = game.get_tags()
-labels = game.get_labels()
+game = None
+df = None
+tags = None
+labels = None
 
 
 def draw_num_of_game_per_tag():
+    print (game.get_data_pth())
     data = {'tag': [], 'num': []}
     for key in labels.keys():
         data['tag'].append(key)
@@ -93,40 +94,46 @@ def draw_viewer_channel():
     return fig
 
 
-## HTML layout for the web page
-app.layout = html.Div(children=[
-    html.H1(children='Twitch Analysis', style={'textAlign': 'center'}),
+def show(debug: bool, dir, timestamp):
+    # update global variables with input parameters
+    global game, df, tags, labels
+    game = Game(dir, timestamp)
+    df = game.get_data()
+    tags = game.get_tags()
+    labels = game.get_labels()
 
-    # draw 2 plots in one row
-    dbc.Row([
-        dbc.Col(
-            html.Div([
-                dcc.Graph(id='num_of_game_per_tag_graph', figure=draw_num_of_game_per_tag()),
-            ])
-        ),
-        dbc.Col(
-            html.Div([
-                dcc.Graph(id='total_viewers_graph', figure=draw_total_viewers()),
-            ])
-        )
-    ]),
+    ## HTML layout for the web page
+    app.layout = html.Div(children=[
+        html.H1(children='Twitch Analysis', style={'textAlign': 'center'}),
 
-    dbc.Row([
-        dbc.Col(
-            html.Div([
-                dcc.Graph(id='aver_viewers_graph', figure=draw_average_viewers()),
-            ])
-        ),
-        dbc.Col(
-            html.Div([
-                dcc.Graph(id='peak_viewers_graph', figure=draw_peak_viewers()),
-            ])
-        ),
-    ]),
+        # draw 2 plots in one row
+        dbc.Row([
+            dbc.Col(
+                html.Div([
+                    dcc.Graph(id='num_of_game_per_tag_graph', figure=draw_num_of_game_per_tag()),
+                ])
+            ),
+            dbc.Col(
+                html.Div([
+                    dcc.Graph(id='total_viewers_graph', figure=draw_total_viewers()),
+                ])
+            )
+        ]),
 
-    dcc.Graph(id='viewer_channel_graph', figure=draw_viewer_channel())
-])
+        dbc.Row([
+            dbc.Col(
+                html.Div([
+                    dcc.Graph(id='aver_viewers_graph', figure=draw_average_viewers()),
+                ])
+            ),
+            dbc.Col(
+                html.Div([
+                    dcc.Graph(id='peak_viewers_graph', figure=draw_peak_viewers()),
+                ])
+            ),
+        ]),
 
+        dcc.Graph(id='viewer_channel_graph', figure=draw_viewer_channel())
+    ])
 
-def show(debug: bool):
     app.run_server(debug=debug)

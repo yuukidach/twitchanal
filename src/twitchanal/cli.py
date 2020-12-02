@@ -69,10 +69,16 @@ def collect(dir: str, timestamp: bool, num: int, stream: int, extra: bool,
               is_flag=True,
               default=False,
               help='Run in debug mode.')
-def process(debug: bool):
+@click.option('--dir', '-d', 
+              default='dataset',
+              help='Data directory.')
+@click.option('--timestamp', '-t',
+              default=None,
+              help='Data timestamp.')
+def process(debug: bool, dir: str, timestamp: str):
     """ Process data and do visualization.
     """
-    show(debug)
+    show(debug, dir, timestamp)
 
 
 cli.add_command(save_user)
