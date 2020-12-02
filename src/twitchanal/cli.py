@@ -69,12 +69,14 @@ def collect(dir: str, timestamp: bool, num: int, stream: int, extra: bool,
               is_flag=True,
               default=False,
               help='Run in debug mode.')
-@click.option('--dir', '-d', 
-              default='dataset',
-              help='Data directory.')
-@click.option('--timestamp', '-t',
-              default=None,
-              help='Data timestamp.')
+@click.option('--dir', '-d', default='dataset', help='Data directory.')
+@click.option(
+    '--timestamp',
+    '-t',
+    default=None,
+    help=
+    'Data timestamp. Specify which csv file to use or the program will use the latest one by default.'
+)
 def process(debug: bool, dir: str, timestamp: str):
     """ Process data and do visualization.
     """
