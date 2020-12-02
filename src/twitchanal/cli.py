@@ -3,6 +3,7 @@ import logging
 import os
 from twitchanal.secret.secret import save_id_secret
 from twitchanal.collect.save import collect_data
+from twitchanal.process.show import show
 
 
 @click.group()
@@ -63,8 +64,19 @@ def collect(dir: str, timestamp: bool, num: int, stream: int, extra: bool,
     collect_data(dir, timestamp, num, stream, extra)
 
 
+@click.command()
+@click.option('--debug', is_flag=True, 
+              default=False,
+              help='Run in debug mode.')
+def process(debug: bool):
+    """ Process data and do visualization.
+    """
+    show(debug)
+
+
 cli.add_command(save_user)
 cli.add_command(collect)
+cli.add_command(process)
 
 if __name__ == '__main__':
     cli()
