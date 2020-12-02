@@ -9,7 +9,6 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from twitchanal.process.game import Game
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 game = Game()
