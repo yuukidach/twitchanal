@@ -6,7 +6,7 @@ from termcolor import colored, cprint
 from typing import List
 
 class Game(object):
-    def __init__(self, dir='dataset', timestamp=None)
+    def __init__(self, dir='dataset', timestamp=None):
         self.dir = dir
         self.timestamp = timestamp
         self.tags = self._init_tags()
@@ -63,9 +63,9 @@ class Game(object):
                 df = pd.read_csv(tag_file)
             except:
                 continue
-            ids = df[id].values
+            ids = df['id'].values
             tag = tag_file.split('/')[-1].split('.')[0]
-            tags[tag] = idsg
+            tags[tag] = ids
         return tags
 
     def _find_labels(self, game_id: int) -> List:
@@ -87,8 +87,8 @@ class Game(object):
         """ append labels to dataframe
         """
         ids = self.data['id'].values
-        labels = [self._find_labels_labels(id) for id in ids]
-        df['labels'] = labels
+        labels = [self._find_labels(id) for id in ids]
+        self.data['label'] = labels
 
     def _clean_data(self):
         """ data cleaning
@@ -105,3 +105,14 @@ class Game(object):
     
     def get_tags(self):
         return self.tags
+
+    def get_labels(self) -> dict:
+        cat = {}
+        for _, row in self.data.iterrows():
+            label = row['label']
+            for tag in label:
+                if tag in cat:
+                    cat[tag].append(row['id'])
+                else:
+                    cat[tag] = [row['id']]
+        return cat

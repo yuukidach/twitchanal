@@ -65,7 +65,8 @@ def collect(dir: str, timestamp: bool, num: int, stream: int, extra: bool,
 
 
 @click.command()
-@click.option('--debug', is_flag=True, 
+@click.option('--debug',
+              is_flag=True,
               default=False,
               help='Run in debug mode.')
 def process(debug: bool):
