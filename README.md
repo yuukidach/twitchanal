@@ -174,7 +174,6 @@ And some groupmate may be confused with how to generate token for Twitch API. Yo
 
 Thanks to all team members.
 
-TODO: CHANGE THE CONTIBUTOR IMAGE! (THE REPO HAS BEEN RENAMED)
-<a href="https://github.com/yuukidach/eGaming-Analytics/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=yuukidach/eGaming-Analytics" />
+<a href="https://github.com/yuukidach/twitchanal/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=yuukidach/twitchanal" />
 </a>
